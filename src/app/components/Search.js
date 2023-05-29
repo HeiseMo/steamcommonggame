@@ -27,6 +27,7 @@ function Search({ onSubmit }) {
   };
 
   const handleDeleteName = (index) => {
+    console.log("del")
     const updatedPlayers = [...players];
     updatedPlayers.splice(index, 1);
     setPlayers(updatedPlayers);
@@ -86,7 +87,7 @@ function Search({ onSubmit }) {
             <p>{player[0].personaname}</p>
             <button 
               className='closeNameTag' 
-              onTouchStart={() => handleDeleteName(index)}
+              onClick={() => handleDeleteName(index)}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
