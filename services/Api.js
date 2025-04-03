@@ -1,14 +1,20 @@
 import fetch from 'isomorphic-fetch';
 
+const API_KEY = process.env.NEXT_PUBLIC_STEAM_API_KEY;
+
+if (!API_KEY) {
+  console.error('Steam API key is missing. Please set NEXT_PUBLIC_STEAM_API_KEY in your environment variables.');
+}
+
 // Get a user's Steam ID
 export async function getSteamId(input) {
   if (Array.isArray(input) && input[0] && input[0].hasOwnProperty('steamid')) {
     return input[0].steamid;
   }
 
-  const response = await fetch(`/api/steam?username=${input}&type=user`);
+  const response = await fetch(`/api/steam?username=${input}&type=user&key=${API_KEY}`);
   const data = await response.json();
-  console.log(data, "data")
+  console.log(data, "data");
 
   return data.steamData.players[0].steamid;
 }
@@ -17,25 +23,25 @@ export async function getSteamId(input) {
 export async function getUserInfo(steamId) {
   if (isNaN(steamId)) {
     const isNotaNum = await getSteamId(steamId);
-    console.log(isNotaNum)
-    const response = await fetch(`/api/steam?username=${isNotaNum}&type=user`);
+    console.log(isNotaNum);
+    const response = await fetch(`/api/steam?username=${isNotaNum}&type=user&key=${API_KEY}`);
     const data = await response.json();
     return data.steamData;
   }
-  const response = await fetch(`/api/steam?username=${steamId}&type=user`);
+  const response = await fetch(`/api/steam?username=${steamId}&type=user&key=${API_KEY}`);
   const data = await response.json();
   return data.steamData;
 }
 
 // Get the games a user owns
 async function getOwnedGames(steamId) {
-  const response = await fetch(`/api/steam?username=${steamId}&type=games`);
+  const response = await fetch(`/api/steam?username=${steamId}&type=games&key=${API_KEY}`);
   const data = await response.json();
   return data.steamData.games;
 }
 
 // Find games two users both own
-export async function findCommonGames(usernames) {
+export async function getCommonGames(usernames) {
   const usernamesArray = Array.isArray(usernames) ? usernames : usernames.split(',');
 
   const steamIds = await Promise.all(
