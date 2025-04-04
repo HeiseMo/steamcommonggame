@@ -298,6 +298,30 @@
   cursor: not-allowed;
 }
 
+.btn-add.loading {
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: row;
+  height: 3.5rem;
+  min-height: 3.5rem;
+  max-height: 3.5rem;
+}
+
+.btn-add.loading svg {
+  display: none; /* Hide the plus icon SVG when loading */
+}
+
+.btn-add .btn-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+  margin-right: 0.25rem;
+}
+
 .loading .btn-spinner {
   display: inline-block;
   width: 1rem;
